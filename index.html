@@ -47,6 +47,8 @@
 					document.getElementById("formfile").style.display = "none";
 					document.getElementById("tablefile").style.display = "block";
 					document.getElementById("tablesra").style.display = "block";
+					document.getElementById("texto1").style.display = "block";
+					document.getElementById("texto2").style.display = "block";
 					
 					var data = e.target.result;
 					
@@ -429,6 +431,7 @@
 			<button type="button" onclick="montar();" style="float: left; width: 200px;margin: 0px;" class="btn btn-primary">Montar Tabela</button>
 		</div>
 	</form>
+	<p id='texto1' style="display:none;">Semana atual</p>
 	<table id="tablesra" style="float; width:100%; display:none;">
 		<thead style="float; width:100%;">
 			<tr>
@@ -449,6 +452,7 @@
 	<br>
 	<hr>
 	<br>
+	<p id='texto2' style="display:none;">Historico Completo</p>
 	<table id="tablefile" style="float; width:100%; display:none;">
 		<thead style="float; width:100%;">
 			<tr>
