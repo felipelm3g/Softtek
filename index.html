@@ -24,7 +24,7 @@
 	<script src="https://unpkg.com/blip-chat-widget" type="text/javascript"></script>  
 	<script>
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
-			//console.log("Pronto para ler o arquivo.");
+			console.log("Pronto para ler o arquivo.");
 		} else {
 			alert('The File APIs are not fully supported in this browser.');
 		}
@@ -35,7 +35,7 @@
 		function montar(){
 			var files = document.getElementById('fileUploader').files;
 			var file = files[0];
-			console.log(file);
+			//console.log(file);
 			
 			var reader = new FileReader();
 			
@@ -53,7 +53,7 @@
 					//console.log(workbook);
 					
 					var sheets = workbook['Sheets']['Sheet0'];
-					console.log(sheets);
+					//console.log(sheets);
 					
 					var coluns = [];
 					coluns.push(sheets['A3']);
@@ -101,7 +101,7 @@
 						}
 					}
 					
-					//console.log(rows);
+					console.log(rows);
 					
 					for (i = 0; i < rows.length; i++) {
 						html += "<tr>";
@@ -125,7 +125,7 @@
 					var diaatt = dataatt.getDate();
 					var diasem = dataatt.getDay();
 									
-					console.log(dsemana[diasem]);
+					//console.log(dsemana[diasem]);
 					
 					switch (diasem) {
 						case 0:
@@ -361,7 +361,7 @@
 								}
 							} else {
 								
-								console.log(linhahr);
+								//console.log(linhahr);
 								
 								if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
 								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
@@ -480,6 +480,6 @@
 		<tbody id="saida" style="float; width:100%;">
 		</tbody>
 	</table>
-	<a href="#" style="width: 100%; text-align: center; font-size: 0.8em;opacity: 0.5; text-decoration: none;">Atualizado - 08.07.2020</a>
+	<a href="https://github.com/felipelm3g/Softtek/blob/master/updates/08.07.2020.md" target="_blank" style="width: 100%; text-align: center; font-size: 0.8em;opacity: 0.5; text-decoration: none;">Atualizado - 08.07.2020</a>
   </body>
 </html>
