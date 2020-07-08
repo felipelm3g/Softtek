@@ -277,16 +277,25 @@
 							break;
 					}
 					document.getElementById("dom").innerHTML = "Dom " + datadom.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("seg").innerHTML = "Seg " + dataseg.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("ter").innerHTML = "Ter " + datater.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("qua").innerHTML = "Qua " + dataqua.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("qui").innerHTML = "Qui " + dataqui.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("sex").innerHTML = "Sex " + datasex.getDate() + "/" + (datadom.getMonth() + 1);
-					document.getElementById("sab").innerHTML = "Sab " + datasab.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("seg").innerHTML = "Seg " + dataseg.getDate() + "/" + (dataseg.getMonth() + 1);
+					document.getElementById("ter").innerHTML = "Ter " + datater.getDate() + "/" + (datater.getMonth() + 1);
+					document.getElementById("qua").innerHTML = "Qua " + dataqua.getDate() + "/" + (dataqua.getMonth() + 1);
+					document.getElementById("qui").innerHTML = "Qui " + dataqui.getDate() + "/" + (dataqui.getMonth() + 1);
+					document.getElementById("sex").innerHTML = "Sex " + datasex.getDate() + "/" + (datasex.getMonth() + 1);
+					document.getElementById("sab").innerHTML = "Sab " + datasab.getDate() + "/" + (datasab.getMonth() + 1);
+					
+					datadom.setHours(0, 0, 0, 0);
+					dataseg.setHours(0, 0, 0, 0);
+					datater.setHours(0, 0, 0, 0);
+					dataqua.setHours(0, 0, 0, 0);
+					dataqui.setHours(0, 0, 0, 0);
+					datasex.setHours(0, 0, 0, 0);
+					datasab.setHours(0, 0, 0, 0);
 					
 					html = "";
 					var hrstotas = [];
-					var linhahr = {
+					var tabelahr = [];
+					/*var linhahr = {
 						'chm': "",
 						'cod': "",
 						'des': "",
@@ -297,15 +306,67 @@
 						'qui': 0,
 						'sex': 0,
 						'sab': 0,
-					};
+					};*/
+					
 					for (i = 0; i < rows.length; i++) {
+					
+						var linhahr = {
+							'chm': "",
+							'cod': "",
+							'des': "",
+							'dom': 0,
+							'seg': 0,
+							'ter': 0,
+							'qua': 0,
+							'qui': 0,
+							'sex': 0,
+							'sab': 0,
+						};
+					
+						var procano = parseInt(rows[i]['D']);
+						var procmes = parseInt(rows[i]['E']) - 1;
+						var procdia = parseInt(rows[i]['F']);
+						var dtchmd = new Date(procano,procmes,procdia);
+						
+						linhahr['chm'] = rows[i]['B'];
+						linhahr['cod'] = rows[i]['A'];
+						linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
+						
+						if(dtchmd.getTime() == datadom.getTime()){
+							linhahr['dom'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == dataseg.getTime()){
+							linhahr['seg'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == datater.getTime()){
+							linhahr['ter'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == dataqua.getTime()){
+							linhahr['qua'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == dataqui.getTime()){
+							linhahr['qui'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == datasex.getTime()){
+							linhahr['sex'] = parseInt(rows[i]['G']);
+						}
+						if(dtchmd.getTime() == datasab.getTime()){
+							linhahr['sab'] = parseInt(rows[i]['G']);
+						}
+						
+						tabelahr.push(linhahr);
+					}
+					
+					console.log(tabelahr);
+					
+					/*for (i = 0; i < rows.length; i++) {
 						var procano = parseInt(rows[i]['D']);
 						var procmes = parseInt(rows[i]['E']) - 1;
 						var procdia = parseInt(rows[i]['F']);
 						var dataproc = new Date(procano,procmes,procdia);
 						//console.log(dataproc);
 						
-						if(linhahr['chm'] == ""){
+						//if(linhahr['chm'] == ""){
 							linhahr['chm'] = rows[i]['B'];
 							linhahr['cod'] = rows[i]['A'];
 							linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
@@ -333,6 +394,8 @@
 									linhahr['sab'] = parseInt(rows[i]['G']);
 									break;
 							}
+							
+							tabelahr.push(linhahr);
 							
 						} else {
 							if(linhahr['chm'] == rows[i]['B']){
@@ -415,8 +478,9 @@
 							}
 						}
 						
-					}
-					if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
+					}*/
+					
+					/*if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
 								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
 									html += "<tr>";
 									html += "<td>" + linhahr['cod'] + "</td>";
@@ -429,7 +493,7 @@
 									html += "<td>" + linhahr['sex'] + "</td>";
 									html += "<td>" + linhahr['sab'] + "</td>";
 									html += "</tr>";
-								}
+								}*/
 					document.getElementById("saidasra").innerHTML = html;
 				}
 			};
