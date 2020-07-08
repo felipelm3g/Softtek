@@ -31,6 +31,7 @@
 		
 		var colunas = 2;
 		var html = "";
+		var tblhrtotal = [];
 		
 		function montar(){
 			var files = document.getElementById('fileUploader').files;
@@ -101,7 +102,7 @@
 						}
 					}
 					
-					console.log(rows);
+					//console.log(rows);
 					
 					for (i = 0; i < rows.length; i++) {
 						html += "<tr>";
@@ -295,19 +296,7 @@
 					html = "";
 					var hrstotas = [];
 					var tabelahr = [];
-					/*var linhahr = {
-						'chm': "",
-						'cod': "",
-						'des': "",
-						'dom': 0,
-						'seg': 0,
-						'ter': 0,
-						'qua': 0,
-						'qui': 0,
-						'sex': 0,
-						'sab': 0,
-					};*/
-					
+										
 					for (i = 0; i < rows.length; i++) {
 					
 						var linhahr = {
@@ -357,149 +346,76 @@
 						tabelahr.push(linhahr);
 					}
 					
-					console.log(tabelahr);
+					//console.log(tabelahr);
 					
-					/*for (i = 0; i < rows.length; i++) {
-						var procano = parseInt(rows[i]['D']);
-						var procmes = parseInt(rows[i]['E']) - 1;
-						var procdia = parseInt(rows[i]['F']);
-						var dataproc = new Date(procano,procmes,procdia);
-						//console.log(dataproc);
-						
-						//if(linhahr['chm'] == ""){
-							linhahr['chm'] = rows[i]['B'];
-							linhahr['cod'] = rows[i]['A'];
-							linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
-							
-							switch (dataproc.getDate()) {
-								case datadom.getDate():
-									linhahr['dom'] = parseInt(rows[i]['G']);
-									break;
-								case dataseg.getDate():
-									linhahr['seg'] = parseInt(rows[i]['G']);
-									break;
-								case datater.getDate():
-									linhahr['ter'] = parseInt(rows[i]['G']);
-									break;
-								case dataqua.getDate():
-									linhahr['qua'] = parseInt(rows[i]['G']);
-									break;
-								case dataqui.getDate():
-									linhahr['qui'] = parseInt(rows[i]['G']);
-									break;
-								case datasex.getDate():
-									linhahr['sex'] = parseInt(rows[i]['G']);
-									break;
-								case datasab.getDate():
-									linhahr['sab'] = parseInt(rows[i]['G']);
-									break;
-							}
-							
-							tabelahr.push(linhahr);
-							
-						} else {
-							if(linhahr['chm'] == rows[i]['B']){
-								switch (dataproc.getDate()) {
-									case datadom.getDate():
-										linhahr['dom'] = linhahr['dom'] + parseInt(rows[i]['G']);
-										break;
-									case dataseg.getDate():
-										linhahr['seg'] = linhahr['seg'] + parseInt(rows[i]['G']);
-										break;
-									case datater.getDate():
-										linhahr['ter'] = linhahr['ter'] + parseInt(rows[i]['G']);
-										break;
-									case dataqua.getDate():
-										linhahr['qua'] = linhahr['qua'] + parseInt(rows[i]['G']);
-										break;
-									case dataqui.getDate():
-										linhahr['qui'] = linhahr['qui'] + parseInt(rows[i]['G']);
-										break;
-									case datasex.getDate():
-										linhahr['sex'] = linhahr['sex'] + parseInt(rows[i]['G']);
-										break;
-									case datasab.getDate():
-										linhahr['sab'] = linhahr['sab'] + parseInt(rows[i]['G']);
-										break;
-								}
-							} else {
-								
-								//console.log(linhahr);
-								
-								if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
-								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
-									html += "<tr>";
-									html += "<td>" + linhahr['cod'] + "</td>";
-									html += "<td>" + linhahr['des'] + "</td>";
-									html += "<td>" + linhahr['dom'] + "</td>";
-									html += "<td>" + linhahr['seg'] + "</td>";
-									html += "<td>" + linhahr['ter'] + "</td>";
-									html += "<td>" + linhahr['qua'] + "</td>";
-									html += "<td>" + linhahr['qui'] + "</td>";
-									html += "<td>" + linhahr['sex'] + "</td>";
-									html += "<td>" + linhahr['sab'] + "</td>";
-									html += "</tr>";
-								}
-								
-								linhahr['chm'] = rows[i]['B'];
-								linhahr['cod'] = rows[i]['A'];
-								linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
-								linhahr['dom'] = 0;
-								linhahr['seg'] = 0;
-								linhahr['ter'] = 0;
-								linhahr['qua'] = 0;
-								linhahr['qui'] = 0;
-								linhahr['sex'] = 0;
-								linhahr['sab'] = 0;
-								
-								switch (dataproc.getDate()) {
-									case datadom.getDate():
-										linhahr['dom'] = parseInt(rows[i]['G']);
-										break;
-									case dataseg.getDate():
-										linhahr['seg'] = parseInt(rows[i]['G']);
-										break;
-									case datater.getDate():
-										linhahr['ter'] = parseInt(rows[i]['G']);
-										break;
-									case dataqua.getDate():
-										linhahr['qua'] = parseInt(rows[i]['G']);
-										break;
-									case dataqui.getDate():
-										linhahr['qui'] = parseInt(rows[i]['G']);
-										break;
-									case datasex.getDate():
-										linhahr['sex'] = parseInt(rows[i]['G']);
-										break;
-									case datasab.getDate():
-										linhahr['sab'] = parseInt(rows[i]['G']);
-										break;
-								}
+					for (i = 0; i < tabelahr.length; i++){
+					
+						var linhahr = {
+							'chm': "",
+							'cod': "",
+							'des': "",
+							'dom': 0,
+							'seg': 0,
+							'ter': 0,
+							'qua': 0,
+							'qui': 0,
+							'sex': 0,
+							'sab': 0,
+						};
+					
+						var cadastr = true;
+			
+						for (z = 0; z < tblhrtotal.length; z++){
+							if(tabelahr[i]['chm'] == tblhrtotal[z]['chm'] && tabelahr[i]['cod'] == tblhrtotal[z]['cod']){
+								tblhrtotal[z]['dom'] = tblhrtotal[z]['dom'] + tabelahr[i]['dom'];
+								tblhrtotal[z]['seg'] = tblhrtotal[z]['seg'] + tabelahr[i]['seg'];
+								tblhrtotal[z]['ter'] = tblhrtotal[z]['ter'] + tabelahr[i]['ter'];
+								tblhrtotal[z]['qua'] = tblhrtotal[z]['qua'] + tabelahr[i]['qua'];
+								tblhrtotal[z]['qui'] = tblhrtotal[z]['qui'] + tabelahr[i]['qui'];
+								tblhrtotal[z]['sex'] = tblhrtotal[z]['sex'] + tabelahr[i]['sex'];
+								tblhrtotal[z]['sab'] = tblhrtotal[z]['sab'] + tabelahr[i]['sab'];
+								cadastr = false;
 							}
 						}
 						
-					}*/
+						if(cadastr){
+							var linhahr = {
+								'chm': tabelahr[i]['chm'],
+								'cod': tabelahr[i]['cod'],
+								'des': tabelahr[i]['des'],
+								'dom': tabelahr[i]['dom'],
+								'seg': tabelahr[i]['seg'],
+								'ter': tabelahr[i]['ter'],
+								'qua': tabelahr[i]['qua'],
+								'qui': tabelahr[i]['qui'],
+								'sex': tabelahr[i]['sex'],
+								'sab': tabelahr[i]['sab'],
+							};
+							tblhrtotal.push(linhahr);
+						}
+					}
 					
-					/*if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
-								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
-									html += "<tr>";
-									html += "<td>" + linhahr['cod'] + "</td>";
-									html += "<td>" + linhahr['des'] + "</td>";
-									html += "<td>" + linhahr['dom'] + "</td>";
-									html += "<td>" + linhahr['seg'] + "</td>";
-									html += "<td>" + linhahr['ter'] + "</td>";
-									html += "<td>" + linhahr['qua'] + "</td>";
-									html += "<td>" + linhahr['qui'] + "</td>";
-									html += "<td>" + linhahr['sex'] + "</td>";
-									html += "<td>" + linhahr['sab'] + "</td>";
-									html += "</tr>";
-								}*/
+					console.log(tblhrtotal);
+					
+					for (z = 0; z < tblhrtotal.length; z++){
+						html += "<tr>";
+						html += "<td>" + tblhrtotal[z]['cod'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['des'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['dom'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['seg'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['ter'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['qua'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['qui'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['sex'] + "</td>";
+						html += "<td>" + tblhrtotal[z]['sab'] + "</td>";
+						html += "</tr>";
+					}
+					
 					document.getElementById("saidasra").innerHTML = html;
 				}
 			};
 			reader.readAsArrayBuffer(file);
 		}
-		
 	</script>
   </head>
   <body style="padding:20px;">
