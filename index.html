@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Apontamento de horas</title>
+	<style>
+		th, td {
+		  border: 1px solid #7c7c7c;
+		  border-collapse: collapse;
+		  padding: 5px;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
+	<script src="https://unpkg.com/blip-chat-widget" type="text/javascript"></script>  
+	<script>
+		if (window.File && window.FileReader && window.FileList && window.Blob) {
+			//console.log("Pronto para ler o arquivo.");
+		} else {
+			alert('The File APIs are not fully supported in this browser.');
+		}
+		
+		var colunas = 2;
+		var html = "";
+		
+		function montar(){
+			var files = document.getElementById('fileUploader').files;
+			var file = files[0];
+			console.log(file);
+			
+			var reader = new FileReader();
+			
+			reader.onload = function (e) {
+				if (e.error) {
+                    console.log("Erro");
+                } else {
+					document.getElementById("formfile").style.display = "none";
+					document.getElementById("tablefile").style.display = "block";
+					document.getElementById("tablesra").style.display = "block";
+					
+					var data = e.target.result;
+					
+					var workbook = XLSX.read(data, { type: 'binary', cellDates:true, cellStyles:true });
+					//console.log(workbook);
+					
+					var sheets = workbook['Sheets']['Sheet0'];
+					console.log(sheets);
+					
+					var coluns = [];
+					coluns.push(sheets['A3']);
+					coluns.push(sheets['B3']);
+					coluns.push(sheets['C3']);
+					coluns.push(sheets['D3']);
+					coluns.push(sheets['E3']);
+					coluns.push(sheets['F3']);
+					coluns.push(sheets['G3']);
+					
+					var rows = [];
+					
+					var count = 4;
+					var vara = "";
+					var varb = "";
+					var varc = "";
+					var vard = "";
+					var vare = "";
+					var varf = "";
+					var varg = "";
+					
+					while(true){
+						vara = "A" + count;
+						varb = "B" + count;
+						varc = "C" + count;
+						vard = "D" + count;
+						vare = "E" + count;
+						varf = "F" + count;
+						varg = "G" + count;
+						try {
+							var linha = {
+								'A': sheets[vara]['v'],
+								'B': sheets[varb]['v'],
+								'C': sheets[varc]['v'],
+								'D': sheets[vard]['v'],
+								'E': sheets[vare]['v'],
+								'F': sheets[varf]['v'],
+								'G': sheets[varg]['v'],
+							};
+							rows.push(linha);
+							count++;
+						}
+						catch(err) {
+							break;
+						}
+					}
+					
+					//console.log(rows);
+					
+					for (i = 0; i < rows.length; i++) {
+						html += "<tr>";
+						html += "<td>" + rows[i]['A']; + "</td>";
+						html += "<td>" + rows[i]['B']; + "</td>";
+						html += "<td>" + rows[i]['C']; + "</td>";
+						html += "<td>" + rows[i]['D']; + "</td>";
+						html += "<td>" + rows[i]['E']; + "</td>";
+						html += "<td>" + rows[i]['F']; + "</td>";
+						html += "<td>" + rows[i]['G']; + "</td>";
+						html += "</tr>";
+					}
+					document.getElementById("saida").innerHTML = html;
+										
+					//Calcular semana
+					var dsemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+					
+					var dataatt = new Date();
+					var anoatt = dataatt.getFullYear();
+					var mesatt = dataatt.getMonth();
+					var diaatt = dataatt.getDate();
+					var diasem = dataatt.getDay();
+									
+					console.log(dsemana[diasem]);
+					
+					switch (diasem) {
+						case 0:
+							var datadom = new Date();
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() + 1);
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() + 2);
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() + 3);
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() + 4);
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() + 5);
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 6);
+							break;
+						case 1:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 1);
+							
+							var dataseg = new Date();
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() + 1);
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() + 2);
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() + 3);
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() + 4);
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 5);
+							break;
+						case 2:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 2);
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() - 1);
+							
+							var datater = new Date();
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() + 1);
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() + 2);
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() + 3);
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 4);
+							break;
+						case 3:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 3);
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() - 2);
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() - 1);
+							
+							var dataqua = new Date();
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() + 1);
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() + 2);
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 3);
+							break;
+						case 4:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 4);
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() - 3);
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() - 2);
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() - 1);
+							
+							var dataqui = new Date();
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() + 1);
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 2);
+							break;
+						case 5:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 5);
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() - 4);
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() - 3);
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() - 2);
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() - 1);
+							
+							var datasex = new Date();
+							
+							var datasab = new Date();
+							datasab.setDate(datasab.getDate() + 1);
+							break;
+						case 6:
+							var datadom = new Date();
+							datadom.setDate(datadom.getDate() - 6);
+							
+							var dataseg = new Date();
+							dataseg.setDate(dataseg.getDate() - 5);
+							
+							var datater = new Date();
+							datater.setDate(datater.getDate() - 4);
+							
+							var dataqua = new Date();
+							dataqua.setDate(dataqua.getDate() - 3);
+							
+							var dataqui = new Date();
+							dataqui.setDate(dataqui.getDate() - 2);
+							
+							var datasex = new Date();
+							datasex.setDate(datasex.getDate() - 1);
+							
+							var datasab = new Date();
+							break;
+					}
+					document.getElementById("dom").innerHTML = "Dom " + datadom.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("seg").innerHTML = "Seg " + dataseg.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("ter").innerHTML = "Ter " + datater.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("qua").innerHTML = "Qua " + dataqua.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("qui").innerHTML = "Qui " + dataqui.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("sex").innerHTML = "Sex " + datasex.getDate() + "/" + (datadom.getMonth() + 1);
+					document.getElementById("sab").innerHTML = "Sab " + datasab.getDate() + "/" + (datadom.getMonth() + 1);
+					
+					html = "";
+					var hrstotas = [];
+					var linhahr = {
+						'chm': "",
+						'cod': "",
+						'des': "",
+						'dom': 0,
+						'seg': 0,
+						'ter': 0,
+						'qua': 0,
+						'qui': 0,
+						'sex': 0,
+						'sab': 0,
+					};
+					for (i = 0; i < rows.length; i++) {
+						var procano = parseInt(rows[i]['D']);
+						var procmes = parseInt(rows[i]['E']) - 1;
+						var procdia = parseInt(rows[i]['F']);
+						var dataproc = new Date(procano,procmes,procdia);
+						//console.log(dataproc);
+						
+						if(linhahr['chm'] == ""){
+							linhahr['chm'] = rows[i]['B'];
+							linhahr['cod'] = rows[i]['A'];
+							linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
+							
+							switch (dataproc.getDate()) {
+								case datadom.getDate():
+									linhahr['dom'] = parseInt(rows[i]['G']);
+									break;
+								case dataseg.getDate():
+									linhahr['seg'] = parseInt(rows[i]['G']);
+									break;
+								case datater.getDate():
+									linhahr['ter'] = parseInt(rows[i]['G']);
+									break;
+								case dataqua.getDate():
+									linhahr['qua'] = parseInt(rows[i]['G']);
+									break;
+								case dataqui.getDate():
+									linhahr['qui'] = parseInt(rows[i]['G']);
+									break;
+								case datasex.getDate():
+									linhahr['sex'] = parseInt(rows[i]['G']);
+									break;
+								case datasab.getDate():
+									linhahr['sab'] = parseInt(rows[i]['G']);
+									break;
+							}
+							
+						} else {
+							if(linhahr['chm'] == rows[i]['B']){
+								switch (dataproc.getDate()) {
+									case datadom.getDate():
+										linhahr['dom'] = linhahr['dom'] + parseInt(rows[i]['G']);
+										break;
+									case dataseg.getDate():
+										linhahr['seg'] = linhahr['seg'] + parseInt(rows[i]['G']);
+										break;
+									case datater.getDate():
+										linhahr['ter'] = linhahr['ter'] + parseInt(rows[i]['G']);
+										break;
+									case dataqua.getDate():
+										linhahr['qua'] = linhahr['qua'] + parseInt(rows[i]['G']);
+										break;
+									case dataqui.getDate():
+										linhahr['qui'] = linhahr['qui'] + parseInt(rows[i]['G']);
+										break;
+									case datasex.getDate():
+										linhahr['sex'] = linhahr['sex'] + parseInt(rows[i]['G']);
+										break;
+									case datasab.getDate():
+										linhahr['sab'] = linhahr['sab'] + parseInt(rows[i]['G']);
+										break;
+								}
+							} else {
+								
+								console.log(linhahr);
+								
+								if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
+								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
+									html += "<tr>";
+									html += "<td>" + linhahr['cod'] + "</td>";
+									html += "<td>" + linhahr['des'] + "</td>";
+									html += "<td>" + linhahr['dom'] + "</td>";
+									html += "<td>" + linhahr['seg'] + "</td>";
+									html += "<td>" + linhahr['ter'] + "</td>";
+									html += "<td>" + linhahr['qua'] + "</td>";
+									html += "<td>" + linhahr['qui'] + "</td>";
+									html += "<td>" + linhahr['sex'] + "</td>";
+									html += "<td>" + linhahr['sab'] + "</td>";
+									html += "</tr>";
+								}
+								
+								linhahr['chm'] = rows[i]['B'];
+								linhahr['cod'] = rows[i]['A'];
+								linhahr['des'] = rows[i]['B'] + ";CHAMADO;" + rows[i]['C'];
+								linhahr['dom'] = 0;
+								linhahr['seg'] = 0;
+								linhahr['ter'] = 0;
+								linhahr['qua'] = 0;
+								linhahr['qui'] = 0;
+								linhahr['sex'] = 0;
+								linhahr['sab'] = 0;
+								
+								switch (dataproc.getDate()) {
+									case datadom.getDate():
+										linhahr['dom'] = parseInt(rows[i]['G']);
+										break;
+									case dataseg.getDate():
+										linhahr['seg'] = parseInt(rows[i]['G']);
+										break;
+									case datater.getDate():
+										linhahr['ter'] = parseInt(rows[i]['G']);
+										break;
+									case dataqua.getDate():
+										linhahr['qua'] = parseInt(rows[i]['G']);
+										break;
+									case dataqui.getDate():
+										linhahr['qui'] = parseInt(rows[i]['G']);
+										break;
+									case datasex.getDate():
+										linhahr['sex'] = parseInt(rows[i]['G']);
+										break;
+									case datasab.getDate():
+										linhahr['sab'] = parseInt(rows[i]['G']);
+										break;
+								}
+							}
+						}
+						
+					}
+					if(linhahr['dom'] != 0 || linhahr['seg'] != 0 || linhahr['ter'] != 0 || linhahr['qua'] != 0 || linhahr['qui'] != 0 ||
+								linhahr['sex'] != 0 || linhahr['sab'] != 0) {
+									html += "<tr>";
+									html += "<td>" + linhahr['cod'] + "</td>";
+									html += "<td>" + linhahr['des'] + "</td>";
+									html += "<td>" + linhahr['dom'] + "</td>";
+									html += "<td>" + linhahr['seg'] + "</td>";
+									html += "<td>" + linhahr['ter'] + "</td>";
+									html += "<td>" + linhahr['qua'] + "</td>";
+									html += "<td>" + linhahr['qui'] + "</td>";
+									html += "<td>" + linhahr['sex'] + "</td>";
+									html += "<td>" + linhahr['sab'] + "</td>";
+									html += "</tr>";
+								}
+					document.getElementById("saidasra").innerHTML = html;
+				}
+			};
+			reader.readAsArrayBuffer(file);
+		}
+		
+	</script>
+  </head>
+  <body style="padding:20px;">
+	<form style="padding:20px;" id="formfile">
+		<div class="form-group">
+			<input type='file' style="float: left; width: calc(100% - 210px);margin: 0px;margin-right: 10px;" class="form-control-file" id='fileUploader' name='fileUploader' accept='.xls, .xlsx'/>
+			<button type="button" onclick="montar();" style="float: left; width: 200px;margin: 0px;" class="btn btn-primary">Montar Tabela</button>
+		</div>
+	</form>
+	<table id="tablesra" style="float; width:100%; display:none;">
+		<thead style="float; width:100%;">
+			<tr>
+				<th>Código</th>
+				<th>Descrição</th>
+				<th id="dom">Dom</th>
+				<th id="seg">Seg</th>
+				<th id="ter">Ter</th>
+				<th id="qua">Qua</th>
+				<th id="qui">Qui</th>
+				<th id="sex">Sex</th>
+				<th id="sab">Sab</th>
+			</tr>
+		</thead>
+		<tbody id="saidasra" style="float; width:100%;">
+		</tbody>
+	</table>
+	<br>
+	<hr>
+	<br>
+	<table id="tablefile" style="float; width:100%; display:none;">
+		<thead style="float; width:100%;">
+			<tr>
+				<th>Código do Projeto</th>
+				<th>Request Id</th>
+				<th>Descrição</th>
+				<th>Ano</th>
+				<th>Mes</th>
+				<th>Dia</th>
+				<th>Total Horas</th>
+			</tr>
+		</thead>
+		<tbody id="saida" style="float; width:100%;">
+		</tbody>
+	</table>
+  </body>
+</html>
